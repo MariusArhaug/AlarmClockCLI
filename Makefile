@@ -1,5 +1,8 @@
 
-CC=gcc
+CC = gcc
+
+CFLAGS = -std=c11 -g
+LDFLAGS = -g
 
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
@@ -16,11 +19,11 @@ run: all
 	$(BIN)/main
 
 compile: $(OBJ)
-	$(CC) -o $(BIN)/main $^
+	$(CC) -o $(BIN)/main $^ $(LDFLAGS)
 
 
 %.o: %.c
-	$(CC) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 
 clean:
