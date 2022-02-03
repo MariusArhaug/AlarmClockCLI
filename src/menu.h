@@ -2,10 +2,16 @@
 #define MENU_H
 
 #include "clock.h"
+#include "time.h"
 
-void show_time(void);
-int show_menu(void);
-void schedule_menu(void);
-void list_menu(void);
-void cancel_menu(void);
+int menu_loop(alarm_clock_t*);
+
+typedef struct tm tm_t;
+
+static void show_time(tm_t*);
+static void schedule_menu(alarm_clock_t*, tm_t*);
+static void list_menu(alarm_clock_t*);
+static void cancel_menu(void);
+static tm_t* get_current_time();
+
 #endif
