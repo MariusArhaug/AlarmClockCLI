@@ -9,6 +9,7 @@
 
 typedef struct {
   time_t time;
+  pid_t pid;
 } alarm_t ;
 
 typedef struct  {
