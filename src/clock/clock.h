@@ -3,7 +3,8 @@
 
 #define __USE_XOPEN
 #define __GNU_SOURCE
-#include "time.h"
+#include <time.h>
+#include <sys/types.h>
 
 #define INIT_SIZE 10
 

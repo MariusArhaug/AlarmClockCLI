@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -std=c11 -g -D_POSIX_C_SOURCE
 LDFLAGS = -g
 
-SRC = $(wildcard src/*.c)
+SRC = $(wildcard src/*.c) $(wildcard src/**/*.c)
 OBJ = $(SRC:.c=.o)
 BIN = bin
 

@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "clock.h"
+#include "../clock/clock.h"
 #include "time.h"
 
 #define _POSIX_SOURCE

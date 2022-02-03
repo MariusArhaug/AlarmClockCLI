@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include "clock.h"
+#include "../clock/clock.h"
 #include "menu.h"
 
 #define MAX_INPUT_SIZE 256
