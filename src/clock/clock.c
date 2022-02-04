@@ -1,5 +1,11 @@
 #include "clock.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <signal.h>
+#include <string.h>
 
 alarm_clock_t* initialize()
 {
@@ -31,4 +37,48 @@ void free_clock(alarm_clock_t* clock)
   clock->alarms = NULL;
   clock->length = clock->capacity = 0;
   free(clock);
+}
+
+alarm_t create_alarm(time_t time, int difference)
+{
+  alarm_t alarm;
+  alarm.time = time;
+
+  pid_t pid = fork();  
+  alarm.pid = pid;
+  if (pid == 0) {
+    /* child process */
+    sleep(difference);
+    printf("RING! \n");
+    exit(EXIT_SUCCESS);
+  }
+
+  return alarm;
+
+}
+
+alarm_t remove_alarm(alarm_clock_t* clock, int index) 
+{
+  alarm_t alarm = clock->alarms[index];
+
+
+  alarm_t * updated_array = malloc(clock->capacity * sizeof(alarm_t));
+
+  memmove(
+    updated_array,
+    clock->alarms,
+    (index+1)*sizeof(alarm_t)
+  );
+
+  memmove(
+    updated_array+index,
+    clock->alarms+(index+1),
+    (clock->capacity - index)*sizeof(alarm_t)
+  );
+
+  free(clock->alarms);
+  clock->alarms = updated_array;
+  clock->length -= 1;
+  kill(alarm.pid, SIGKILL);
+  return alarm;
 }

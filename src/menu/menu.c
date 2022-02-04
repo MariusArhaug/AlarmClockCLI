@@ -60,9 +60,9 @@ void show_time(struct tm * time)
  * 
  * @return tm_t* time object
  */
-tm_t* get_current_time()
+struct tm* get_current_time()
 {
-  tm_t* current_time = malloc(sizeof(struct tm));
+  struct tm* current_time = malloc(sizeof(struct tm));
   time_t rawtime;
   time (&rawtime);
   current_time = localtime( &rawtime );
@@ -78,33 +78,22 @@ tm_t* get_current_time()
  * @param clock take in clock struct pointer
  * @param current_time current_time when program started
  */
-void schedule_menu(alarm_clock_t* clock, tm_t* current_time)
+void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
 {
   char input[MAX_INPUT_SIZE];
   printf("Schedule alarm at which data and time? ");
-  scanf(" %255[^\n]", input); // TODO make fgets 
+  scanf(" %255[^\n]", input); // TODO make fgets work
   
-  printf("input: %s \n", input);
-
-  alarm_t alarm;
   struct tm tm;
+  strptime(input, "%F %T", &tm); 
+  // TODO this converter dosent always for for hours
 
-  strptime(input, "%F %T", &tm);
-  alarm.time = mktime(&tm); 
+  time_t time = mktime(&tm); 
+
+  int difference = difftime(mktime(current_time), time) * (-1);
+
+  alarm_t alarm = create_alarm(time, difference);
   
-
-  int difference = difftime(mktime(current_time), alarm.time) * (-1);
-  pid_t pid = fork();  
-
-  if (pid == 0) {
-    /* child process */
-
-    sleep((int) difference);
-    printf("RING! \n");
-    exit(EXIT_SUCCESS);
-  }
-
-  alarm.pid = pid;
   push(clock, alarm);
   
   printf("Scheduling alarm in %d seconds \n", difference);
@@ -120,7 +109,7 @@ void list_menu(alarm_clock_t *clock) {
   {
     for (int i = 0; i < clock->length; i++) 
     {
-      wchar_t buff[40];
+      wchar_t buff[MAX_INPUT_SIZE];
 
       wcsftime(buff, sizeof buff, L"%F %T", localtime(&(clock->alarms[i].time)));
 
@@ -134,8 +123,9 @@ void cancel_menu(alarm_clock_t* clock) {
   while (1) {
     int index;
     char term;
+    printf("Cancel which alarm? ");
     if(
-      scanf("%d%c", &index, &term) != 2 
+      scanf(" %d%c", &index, &term) != 2 
       || term != '\n' 
       || index <= 0 
       || index > clock->length+1
@@ -143,8 +133,9 @@ void cancel_menu(alarm_clock_t* clock) {
       printf("Not valid number, try again \n");
       continue;
     }
-    alarm_t alarm = clock->alarms[index-1];
+    // alarm_t alarm = clock->alarms[index-1];
+    alarm_t alarm = remove_alarm(clock, index-1);
     printf("Alarm %d with pid: %d canceled\n", index, alarm.pid);
-    kill(alarm.pid, SIGKILL);
+    break;
   }
 }
