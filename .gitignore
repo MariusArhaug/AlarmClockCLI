@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+# Libraries
+lib/mpg123/*
+audio/*
+
 # Object files
 *.o
 *.ko

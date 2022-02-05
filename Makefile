@@ -1,7 +1,7 @@
 
 CC = gcc
 
-CFLAGS = -std=c11 -g -D_POSIX_C_SOURCE
+CFLAGS = -std=c11 -g -Wall
 LDFLAGS = -g
 
 SRC = $(wildcard src/*.c) $(wildcard src/**/*.c)
