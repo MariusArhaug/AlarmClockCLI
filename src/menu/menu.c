@@ -29,7 +29,7 @@ int menu_loop(alarm_clock_t *clock) {
 
     char input;
     scanf(" %c", &input);
-
+    //TODO use waitpid() to nullify zombie processes (?)
     switch (input)
     {
       case 's':
@@ -51,10 +51,13 @@ int menu_loop(alarm_clock_t *clock) {
   }
 }
 
+/**
+ * @briefprint out current time to stdout. 
+ * 
+ * @param time time to be printed. 
+ */
 void show_time(struct tm * time) 
 {
-
-
   wchar_t buff[40];
 
   wcsftime(buff, sizeof buff, L"%F %T", time);
@@ -100,9 +103,7 @@ void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
   int difference = difftime(mktime(current_time), time) * (-1);
 
   create_alarm(clock, time, difference);
-  
   printf("Scheduling alarm in %d seconds \n", difference);
-
 }
 
 /**

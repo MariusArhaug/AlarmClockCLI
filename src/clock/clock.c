@@ -100,27 +100,31 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
  */
 alarm_t remove_alarm(alarm_clock_t* clock, int index) 
 {
-  alarm_t alarm = clock->alarms[index];
+  alarm_t alarm = clock->alarms[index]; // get alarm we want to remove
 
 
+  // create temp array with same size as before
   alarm_t * updated_array = malloc(clock->capacity * sizeof(alarm_t));
 
+  // move the old array from start (clock->alamrs pointer starts at begining of array)
+  // until it reaches the index.
   memmove(
     updated_array,
     clock->alarms,
     (index+1)*sizeof(alarm_t)
   );
 
+  // oppsite here, move last part of array into updated array.
   memmove(
     updated_array+index,
     clock->alarms+(index+1),
     (clock->capacity - index)*sizeof(alarm_t)
   );
 
-  free(clock->alarms);
-  clock->alarms = updated_array;
+  free(clock->alarms);  // free old array.
+  clock->alarms = updated_array; // assign new array.
   clock->length -= 1;
-  kill(alarm.pid, SIGKILL);
+  kill(alarm.pid, SIGKILL);     // kill alarm process of the child we removed.
   return alarm;
 }
 
