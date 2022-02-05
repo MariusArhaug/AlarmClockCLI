@@ -27,8 +27,12 @@ void push(alarm_clock_t *, alarm_t);
 
 void free_clock(alarm_clock_t *);
 
-alarm_t create_alarm(time_t, int);
+alarm_t create_alarm(alarm_clock_t*, time_t, int);
 
 alarm_t remove_alarm(alarm_clock_t*, int);
+
+int find_index(alarm_clock_t*, pid_t);
+
+int handler(int, alarm_clock_t*);
 
 #endif
