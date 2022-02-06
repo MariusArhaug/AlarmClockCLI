@@ -2,7 +2,13 @@
 
 ## Summary
 
-This is program is a simple alarm clock cli that allows you to set one or multiple alarms in the future. This project was made as an submission to NTNU's Operating Systems course. `TDT4186`. Where the goal was to create a C program for Unix-like operating systems that uses various processes modifying functions such as `fork()` and `exec()` etc..  
+This is program is a simple alarm clock cli that allows you to set one or multiple alarms in the future. This project was made as an submission to NTNU's Operating Systems course. `TDT4186`. Where the goal was to create a C program for Unix-like operating systems that uses various processes modifying functions such as `fork()` and `exec()` etc..
+
+## Documentation
+
+To find documentation for various functions, look into their respective header files.
+
+<br />
 
 # How to run
 

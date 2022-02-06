@@ -8,14 +8,7 @@
 
 #include "clock.h"
 
-#define FAKE_SIGNAL 0
-#define NOT_FOUND -1
 
-/**
- * @brief initialize clock structure
- * 
- * @return alarm_clock_t* pointer to clock structure 
- */
 alarm_clock_t* initialize()
 {
   
@@ -27,12 +20,6 @@ alarm_clock_t* initialize()
   return clock;
 }
 
-/**
- * @brief Push alarm to clock  
- * 
- * @param clock clock to add alarm to 
- * @param alarm alarm to be added.
- */
 void push(alarm_clock_t* clock, alarm_t alarm)
 {
   // Need to reallocate memory if array has reached max capcaity. 
@@ -45,12 +32,6 @@ void push(alarm_clock_t* clock, alarm_t alarm)
   clock->alarms[clock->length++] = alarm;
 }
 
-/**
- * @brief free clock struct from memory 
- * Frees first its alarms, then sets is length/capacity to 0 
- * finally frees the pointer.
- * @param clock clock to be freed from memory.
- */
 void free_clock(alarm_clock_t* clock) 
 {
   free(clock->alarms);
@@ -59,14 +40,6 @@ void free_clock(alarm_clock_t* clock)
   free(clock);
 }
 
-/**
- * @brief Create a alarm to be added to clock
- * 
- * @param clock clock we want to add a
- * @param time 
- * @param difference 
- * @return alarm_t 
- */
 alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
 {
   alarm_t alarm;
@@ -91,13 +64,6 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   return alarm;
 }
 
-/**
- * @brief removes alarm from clock at given index
- * 
- * @param clock clock to remove alarm from
- * @param index index of the given alarm.
- * @return alarm_t 
- */
 alarm_t remove_alarm(alarm_clock_t* clock, int index) 
 {
   alarm_t alarm = clock->alarms[index]; // get alarm we want to remove
@@ -128,13 +94,6 @@ alarm_t remove_alarm(alarm_clock_t* clock, int index)
   return alarm;
 }
 
-/**
- * @brief find index of alarm given its pid. 
- * 
- * @param clock clock to search through 
- * @param pid pid for alarm we want to find
- * @return int index of found alarm or NOT_FOUND (-1).
- */
 int find_index(alarm_clock_t * clock, pid_t pid)
 {
   for (int i = 0; i < clock->length; i++) 
@@ -144,20 +103,6 @@ int find_index(alarm_clock_t * clock, pid_t pid)
   }
   return NOT_FOUND;
 }
-
-/**
- * @brief handler (callback) to be ran after parent process notices child process is terminated
- * 
- * This is intially run with clock pointer and a fake signal. It then stores the pointer internally. 
- * And then finally manipulates data at that given pointer. 
- * In this case, removes alarm from clock when the alarm process has terminated
- * 
- * Really hacky solution, personally feels wierd...
- * 
- * @param signal signal from signal listener
- * @param ptr ptr to clock.
- * @return i
- */
 
 int handler(const int signal, alarm_clock_t* ptr) {
   pid_t pid = wait(NULL);

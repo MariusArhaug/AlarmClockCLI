@@ -1,3 +1,5 @@
+#include "../clock/clock.h"
+#include "menu.h"
 #include <stdio.h>
 #include <wchar.h>
 #include <stdlib.h>
@@ -7,17 +9,6 @@
 #include <unistd.h>
 #include <signal.h>
 
-#include "../clock/clock.h"
-#include "menu.h"
-
-#define MAX_INPUT_SIZE 256
-
-/**
- * @brief Main menu loop that keeps the program running 
- * 
- * @param clock clock that we want to mutate. 
- * @return int returns 0 if exited correctly.
- */
 
 int menu_loop(alarm_clock_t *clock) {
   struct tm* current_time = get_current_time();
@@ -51,11 +42,6 @@ int menu_loop(alarm_clock_t *clock) {
   }
 }
 
-/**
- * @briefprint out current time to stdout. 
- * 
- * @param time time to be printed. 
- */
 void show_time(struct tm * time) 
 {
   wchar_t buff[40];
@@ -65,11 +51,6 @@ void show_time(struct tm * time)
   printf("Welcome to the alarm clock cli! It is currently %ls\n", buff);
 }
 
-/**
- * @brief Get the current time object
- * 
- * @return tm_t* time object
- */
 struct tm* get_current_time()
 {
   struct tm* current_time = malloc(sizeof(struct tm));
@@ -79,15 +60,6 @@ struct tm* get_current_time()
   return current_time;
 }
 
-/**
- * @brief Schedule alarm clock. Prompt user to input in the following format "%Y-%m-%d %H:%M:%S"
- * 
- * After setting alarm a child process waits until the alarm reaches its deadline. 
- * Then it will either print "RING" or make a noise
- * 
- * @param clock take in clock struct pointer
- * @param current_time current_time when program started
- */
 void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
 {
   char input[MAX_INPUT_SIZE];
@@ -106,11 +78,6 @@ void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
   printf("Scheduling alarm in %d seconds \n", difference);
 }
 
-/**
- * @brief list out all alarms set by user 
- * 
- * @param clock alarm clock we want to read alarms from. 
- */
 void list_menu(alarm_clock_t *clock) {
   if (clock->length == 0) 
   {
@@ -130,14 +97,6 @@ void list_menu(alarm_clock_t *clock) {
   }
 }
 
-/**
- * @brief Open menu to cancel alarms for a given clock.
- * 
- * Input is the corresponding index in the clock's alarm array. 
- * If index < 0 or index > clock.alarms.length, ask for new user input.
- * 
- * @param clock clock that we want to cancel alarms for  
- */
 void cancel_menu(alarm_clock_t* clock) {
   if (clock->length == 0) {
     printf("You have not set any alarms yet! \n");
