@@ -2,7 +2,7 @@
 
 ## Summary
 
-This is a simple alarm clock cli that is a part of NTNU's Operating Systems course (TDT4186) where the main goal is to create a C program for Unix-like operating systems that has the functionality of an alarm clock.
+This is program is a simple alarm clock cli that allows you to set one or multiple alarms in the future. This project was made as an submission to NTNU's Operating Systems course. `TDT4186`. Where the goal was to create a C program for Unix-like operating systems that uses various processes modifying functions such as `fork()` and `exec()` etc..  
 
 # How to run
 
