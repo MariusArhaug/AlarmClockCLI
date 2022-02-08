@@ -72,7 +72,7 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   alarm_t alarm;
   alarm.time = time;
   signal(SIGCHLD, (void (*)(int))handler);
-  //handler(FAKE_SIGNAL, clock);
+  handler(FAKE_SIGNAL, clock);
   pid_t pid = fork();  
   if (pid == 0) {
     /* child process */
@@ -124,6 +124,7 @@ alarm_t remove_alarm(alarm_clock_t* clock, int index)
     printf("%d\n", clock->length);
     return alarm;
   }
+  printf("%s\n", "hello");
   alarm_t alarm = clock->alarms[0];
   return alarm;
 }
