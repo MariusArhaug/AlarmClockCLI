@@ -17,7 +17,6 @@ alarm_clock_t* initialize()
   clock->capacity = INIT_SIZE;
   clock->length = 0;
   clock->alarms = malloc(clock->capacity * sizeof(alarm_t));
-  //handler(FAKE_SIGNAL, clock);
   return clock;
 }
 
@@ -46,8 +45,6 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   alarm_t alarm;
   alarm.time = time;
 
-  //signal(SIGCHLD, (void (*)(int))handler);
-
   pid_t pid = fork();  
   
   if (pid == 0) {
@@ -59,7 +56,6 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   alarm.pid = pid;
   push(clock, alarm);
   
- 
   return alarm;
 }
 
@@ -107,7 +103,8 @@ int update_clock(alarm_clock_t* clock)
 {
   int signal;
   pid_t pid = waitpid(-1, &signal, WNOHANG); // check terminated signal without blocking, avoids zombie processes.
-  if (WIFEXITED(signal) && pid > 0) {
+  if (WIFEXITED(signal) && pid > 0) 
+  {
     int index = find_index(clock, pid);
     remove_alarm(clock, index);
     return 1;
