@@ -3,6 +3,7 @@
 
 #define _POSIX_SOURCE
 #define __USE_XOPEN
+#define __USE_POSIX
 #define __GNU_SOURCE
 #include <time.h>
 #include <sys/types.h>
@@ -74,19 +75,12 @@ alarm_t remove_alarm(alarm_clock_t*, int);
 int find_index(alarm_clock_t*, pid_t);
 
 /**
- * @brief handler (callback) to be ran after parent process notices child process is terminated
+ * @brief check if any child process has terminated without blocking. 
  * 
- * This is intially run with clock pointer and a fake signal. It then stores the pointer internally. 
- * And then finally manipulates data at that given pointer. 
- * In this case, removes alarm from clock when the alarm process has terminated
+ * If found terminated child process it will be removed from clock array. and freed from memory.
  * 
- * Really hacky solution, personally feels wierd...
- * 
- * @param signal signal from signal listener
- * @param ptr ptr to clock.
- * @return i
+ * @return 1 if found terminated process and updated clock accordingly, else 0
  */
-
-int handler(int, alarm_clock_t*);
+int update_clock(alarm_clock_t*);
 
 #endif

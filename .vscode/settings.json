@@ -1,6 +1,14 @@
 {
   "files.associations": {
     "*.sql": "sql",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "time.h": "c",
+    "signal.h": "c",
+    "types.h": "c",
+    "wait.h": "c",
+    "menu.h": "c",
+    "clock.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c"
   }
 }

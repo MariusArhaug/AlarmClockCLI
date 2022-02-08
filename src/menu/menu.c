@@ -7,7 +7,6 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <signal.h>
 
 
 int menu_loop(alarm_clock_t *clock) {
@@ -15,12 +14,14 @@ int menu_loop(alarm_clock_t *clock) {
   show_time(current_time);
 
   while(1) {
-  
+    if (update_clock(clock)) {
+      continue;
+    }
     printf("\nPlease enter \"s\" (schedule), \"l\" (list), \"c\" (cancel), \"x\" (exit) \n> ");
 
     char input;
     scanf(" %c", &input);
-    //TODO use waitpid() to nullify zombie processes (?)
+
     switch (input)
     {
       case 's':
@@ -64,8 +65,8 @@ void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
 {
   char input[MAX_INPUT_SIZE];
   printf("Schedule alarm at which data and time? ");
-  scanf(" %255[^\n]", input); // TODO make fgets work
-  
+  scanf(" %255[^\n]", input); 
+
   struct tm tm;
   strptime(input, "%F %T", &tm); 
   

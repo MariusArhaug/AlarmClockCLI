@@ -1,3 +1,5 @@
+#include "clock.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -6,17 +8,16 @@
 #include <signal.h>
 #include <string.h>
 
-#include "clock.h"
 
 
 alarm_clock_t* initialize()
 {
   
   alarm_clock_t* clock = malloc(sizeof(alarm_clock_t));
-
   clock->capacity = INIT_SIZE;
   clock->length = 0;
   clock->alarms = malloc(clock->capacity * sizeof(alarm_t));
+  //handler(FAKE_SIGNAL, clock);
   return clock;
 }
 
@@ -45,8 +46,7 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   alarm_t alarm;
   alarm.time = time;
 
-  signal(SIGCHLD, (void (*)(int))handler);
-  handler(FAKE_SIGNAL, clock);
+  //signal(SIGCHLD, (void (*)(int))handler);
 
   pid_t pid = fork();  
   
@@ -55,8 +55,7 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
     sleep(difference);
     execl("/bin/mpg123", "/bin/mpg123", "-q" ,"./audio/alarm.mp3", NULL); //TODO make user choose alarm sound.
     exit(EXIT_SUCCESS);
-  } 
-
+  }
   alarm.pid = pid;
   push(clock, alarm);
   
@@ -104,16 +103,14 @@ int find_index(alarm_clock_t * clock, pid_t pid)
   return NOT_FOUND;
 }
 
-int handler(const int signal, alarm_clock_t* ptr) {
-  pid_t pid = wait(NULL);
-  static alarm_clock_t * saved = NULL;
-
-  if (saved == NULL)
-     saved = ptr;
-  if (signal == SIGCHLD) {
-    int index = find_index(saved, pid);
-    remove_alarm(saved, index);
+int update_clock(alarm_clock_t* clock) 
+{
+  int signal;
+  pid_t pid = waitpid(-1, &signal, WNOHANG); // check terminated signal without blocking, avoids zombie processes.
+  if (WIFEXITED(signal) && pid > 0) {
+    int index = find_index(clock, pid);
+    remove_alarm(clock, index);
+    return 1;
   }
-      
   return 0;
 }

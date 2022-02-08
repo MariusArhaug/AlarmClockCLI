@@ -2,6 +2,10 @@
 #define MENU_H
 
 #define _POSIX_C_SOURCE
+#define __USE_MISC
+#define __USE_XOPEN
+#define __GNU_SOURCE
+#include <stdint.h>
 #include <time.h>
 #include "../clock/clock.h"
 
