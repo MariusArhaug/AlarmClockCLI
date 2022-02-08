@@ -30,6 +30,7 @@ int menu_loop(alarm_clock_t *clock) {
     char input;
     scanf(" %c", &input);
     //TODO use waitpid() to nullify zombie processes (?)
+    waitpid(-1, NULL, WNOHANG);
     switch (input)
     {
       case 's':
@@ -40,6 +41,7 @@ int menu_loop(alarm_clock_t *clock) {
         break;
       case 'c':
         cancel_menu(clock);
+        sleep(1); //scanf() not fast enough to recover from return
         break;
       case 'x':
         printf("Goodbye! \n");
@@ -139,7 +141,7 @@ void list_menu(alarm_clock_t *clock) {
  * @param clock clock that we want to cancel alarms for  
  */
 void cancel_menu(alarm_clock_t* clock) {
-  if (clock->length == 0) {
+  if (clock->length <= 0) {
     printf("You have not set any alarms yet! \n");
     printf("You cannot cancel any alarms! \n");
   } else {
@@ -156,7 +158,7 @@ void cancel_menu(alarm_clock_t* clock) {
         printf("Not valid number, try again \n");
         continue;
       }
-      // alarm_t alarm = clock->alarms[index-1];
+      //alarm_t alarm = clock->alarms[index-1];
       alarm_t alarm = remove_alarm(clock, index-1);
       printf("Alarm %d with pid: %d canceled\n", index, alarm.pid);
       break;
