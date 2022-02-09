@@ -21,8 +21,6 @@ int menu_loop(alarm_clock_t *clock) {
 
     char input;
     scanf(" %c", &input);
-    //TODO use waitpid() to nullify zombie processes (?)
-    waitpid(-1, NULL, WNOHANG);
     switch (input)
     {
       case 's':
