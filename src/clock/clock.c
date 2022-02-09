@@ -86,11 +86,8 @@ alarm_t remove_alarm(alarm_clock_t* clock, int index)
     clock->alarms = updated_array; // assign new array.
     clock->length -= 1;
     kill(alarm.pid, SIGKILL);     // kill alarm process of the child we removed.
-    printf("%s\n", "hi");
-    printf("%d\n", clock->length);
     return alarm;
   }
-  printf("%s\n", "hello");
   alarm_t alarm = clock->alarms[0];
   return alarm;
 }
