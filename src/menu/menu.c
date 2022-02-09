@@ -21,7 +21,6 @@ int menu_loop(struct clock_t *clock) {
 
     char input;
     scanf(" %c", &input);
-
     switch (input)
     {
       case 's':
