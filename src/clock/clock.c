@@ -77,7 +77,8 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
   if (pid == 0) {
     /* child process */
     sleep(difference);
-    execl("/bin/mpg123", "/bin/mpg123", "-q" ,"./audio/alarm.mp3", NULL); //TODO make user choose alarm sound.
+    printf("%s\n", "ReeeeING");
+    execl("/bin/mpg123", "/bin/mpg123", "-q" ,"src/audio/JusticeAlarm.mp3", NULL); //TODO make user choose alarm sound.
     exit(EXIT_SUCCESS);
   } 
   alarm.pid = pid;
