@@ -1,34 +1,27 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-#define _POSIX_SOURCE
-#define __USE_XOPEN
-#define __USE_POSIX
-#define __GNU_SOURCE
-#include <time.h>
-#include <sys/types.h>
+
 
 #define INIT_SIZE 10
 #define FAKE_SIGNAL 0
 #define NOT_FOUND -1
+#define CHILD_TERMINATED 1 
+#define CHILD_NOT_TERMINATED 0
 
-typedef struct {
-  time_t time;
-  pid_t pid;
-} alarm_t ;
+#include "alarm.h"
 
-typedef struct  {
-  alarm_t *alarms;
+struct clock_t {
+  struct alarm_t *alarms; //can be upgraded to be array of pointers 
   int capacity;
   int length;
-} alarm_clock_t;
+};
 
 /**
  * @brief initialize clock structure
  * 
- * @returna alarm_clock_t* pointer to clock structure 
  */
-alarm_clock_t* initialize(void);
+void clock_init(struct clock_t*);
 
 /**
  * @brief Push alarm to clock  
@@ -36,7 +29,7 @@ alarm_clock_t* initialize(void);
  * @param clock clock to add alarm to 
  * @param alarm alarm to be added.
  */
-void push(alarm_clock_t *, alarm_t);
+void push(struct clock_t *, struct alarm_t);
 
 /**
  * @brief free clock struct from memory 
@@ -44,7 +37,7 @@ void push(alarm_clock_t *, alarm_t);
  * finally frees the pointer.
  * @param clock clock to be freed from memory.
  */
-void free_clock(alarm_clock_t *);
+void destroy(struct clock_t *);
 
 /**
  * @brief Create a alarm to be added to clock
@@ -54,7 +47,7 @@ void free_clock(alarm_clock_t *);
  * @param difference 
  * @return alarm_t 
  */
-alarm_t create_alarm(alarm_clock_t*, time_t, int);
+//struct alarm_t add_alarm(struct clock_t*, struct alarm_t*);
 
 /**
  * @brief removes alarm from clock at given index
@@ -63,7 +56,7 @@ alarm_t create_alarm(alarm_clock_t*, time_t, int);
  * @param index index of the given alarm.
  * @return alarm_t 
  */
-alarm_t remove_alarm(alarm_clock_t*, int);
+struct alarm_t remove_alarm(struct clock_t*, int);
 
 /**
  * @brief find index of alarm given its pid. 
@@ -72,7 +65,7 @@ alarm_t remove_alarm(alarm_clock_t*, int);
  * @param pid pid for alarm we want to find
  * @return int index of found alarm or NOT_FOUND (-1).
  */
-int find_index(alarm_clock_t*, pid_t);
+int find_index(struct clock_t*, pid_t);
 
 /**
  * @brief check if any child process has terminated without blocking. 
@@ -81,6 +74,6 @@ int find_index(alarm_clock_t*, pid_t);
  * 
  * @return 1 if found terminated process and updated clock accordingly, else 0
  */
-int update_clock(alarm_clock_t*);
+int update_clock(struct clock_t*);
 
 #endif

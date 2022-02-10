@@ -18,7 +18,7 @@
  * @param clock clock that we want to mutate. 
  * @return int returns 0 if exited correctly.
  */
-int menu_loop(alarm_clock_t*);
+int menu_loop(struct clock_t*);
 
 /**
  * @briefprint out current time to stdout. 
@@ -36,14 +36,14 @@ void show_time(struct tm*);
  * @param clock take in clock struct pointer
  * @param current_time current_time when program started
  */
-void schedule_menu(alarm_clock_t*, struct tm*);
+void schedule_menu(struct clock_t*, struct tm*);
 
 /**
  * @brief list out all alarms set by user 
  * 
  * @param clock alarm clock we want to read alarms from. 
  */
-void list_menu(alarm_clock_t*);
+void list_menu(struct clock_t*);
 
 /**
  * @brief Open menu to cancel alarms for a given clock.
@@ -53,7 +53,7 @@ void list_menu(alarm_clock_t*);
  * 
  * @param clock clock that we want to cancel alarms for  
  */
-void cancel_menu(alarm_clock_t*);
+void cancel_menu(struct clock_t*);
 
 
 /**

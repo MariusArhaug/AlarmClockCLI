@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 
-int menu_loop(alarm_clock_t *clock) {
+int menu_loop(struct clock_t *clock) {
   struct tm* current_time = get_current_time();
   show_time(current_time);
 
@@ -61,7 +61,7 @@ struct tm* get_current_time()
   return current_time;
 }
 
-void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
+void schedule_menu(struct clock_t* clock, struct tm* current_time)
 {
   char input[MAX_INPUT_SIZE];
   printf("Schedule alarm at which data and time? ");
@@ -75,11 +75,13 @@ void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
 
   int difference = difftime(mktime(current_time), time) * (-1);
 
-  create_alarm(clock, time, difference);
+  struct alarm_t *alarm = malloc(sizeof(struct alarm_t));
+  alarm_init(alarm, time, difference);
+  push(clock, *alarm);
   printf("Scheduling alarm in %d seconds \n", difference);
 }
 
-void list_menu(alarm_clock_t *clock) {
+void list_menu(struct clock_t *clock) {
   if (clock->length == 0) 
   {
     printf("You have not set any alarms yet!\n");
@@ -98,7 +100,7 @@ void list_menu(alarm_clock_t *clock) {
   }
 }
 
-void cancel_menu(alarm_clock_t* clock) {
+void cancel_menu(struct clock_t* clock) {
   if (clock->length == 0) {
     printf("You have not set any alarms yet! \n");
     printf("You cannot cancel any alarms! \n");
@@ -116,8 +118,7 @@ void cancel_menu(alarm_clock_t* clock) {
         printf("Not valid number, try again \n");
         continue;
       }
-      // alarm_t alarm = clock->alarms[index-1];
-      alarm_t alarm = remove_alarm(clock, index-1);
+      struct alarm_t alarm = remove_alarm(clock, index-1);
       printf("Alarm %d with pid: %d canceled\n", index, alarm.pid);
       break;
     }
