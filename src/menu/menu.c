@@ -1,4 +1,4 @@
-#include "../clock/clock.h"
+//#include "../clock/clock.h"
 #include "menu.h"
 #include <stdio.h>
 #include <wchar.h>
@@ -12,12 +12,12 @@
 int menu_loop(alarm_clock_t *clock) {
   struct tm* current_time = get_current_time();
   show_time(current_time);
-
+  clock->ringtone = 3;
   while(1) {
     if (update_clock(clock)) {
       continue;
     }
-    printf("\nPlease enter \"s\" (schedule), \"l\" (list), \"c\" (cancel), \"x\" (exit) \n> ");
+    printf("\nPlease enter \"s\" (schedule), \"l\" (list), \"c\" (cancel), \"r\" (ringtones), \"x\" (exit) \n> ");
 
     char input;
     scanf(" %c", &input);
@@ -32,6 +32,9 @@ int menu_loop(alarm_clock_t *clock) {
       case 'c':
         cancel_menu(clock);
         sleep(1); //scanf() not fast enough to recover from return
+        break;
+      case 'r':
+        choose_ringtone(clock);
         break;
       case 'x':
         printf("Goodbye! \n");
@@ -77,6 +80,26 @@ void schedule_menu(alarm_clock_t* clock, struct tm* current_time)
 
   create_alarm(clock, time, difference);
   printf("Scheduling alarm in %d seconds \n", difference);
+}
+
+void choose_ringtone(alarm_clock_t* clock){
+
+  while(1){
+    printf("Please select your alarm ringtone from the list bellow :\n");
+    printf("1. Justice alarm tone\n");
+    printf("2. Mario Galaxy Gusty Garden alarm\n");
+    printf("3. Mario elevator alarm\n");
+    printf("4. Really familiar\n");
+    int input;
+    char term;
+    if(scanf(" %d%c", &input, &term) != 2 || term != '\n' || input > 4 || input < 1){
+      printf("Not valid number, try again \n");
+      continue;
+    }
+    printf("Ringtone %d selected", input);
+    clock->ringtone = input-1;
+    break;
+  }
 }
 
 void list_menu(alarm_clock_t *clock) {
