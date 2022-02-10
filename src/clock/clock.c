@@ -8,7 +8,8 @@
 #include <signal.h>
 #include <string.h>
 
-
+const char *ringtonepath[4] = {"src/audio/JusticeAlarm.mp3", "src/audio/MarioGalaxyAlarm.mp3", 
+  "src/audio/MarioElevatormusic.mp3", "src/audio/WiiSportsTitle.mp3"};
 
 alarm_clock_t* initialize()
 {
@@ -49,7 +50,7 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
     /* child process */
     sleep(difference);
     printf("%s\n", "ReeeeING");
-    execl("/bin/mpg123", "/bin/mpg123", "-q" ,"src/audio/JusticeAlarm.mp3", NULL); //TODO make user choose alarm sound.
+    execl("/bin/mpg123", "/bin/mpg123", "-q" , *ringtonepath[clock->ringtone], NULL);
     exit(EXIT_SUCCESS);
   }
   alarm.pid = pid;
