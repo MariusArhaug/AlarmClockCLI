@@ -2,7 +2,7 @@
 #define MAIN_H
 
 #include "menu/menu.h"
-#include "clock/clock.h"
+//#include "clock/clock.h"
 
 
 #endif
