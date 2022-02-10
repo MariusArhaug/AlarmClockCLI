@@ -8,9 +8,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <string.h>
-
-#define AUDIO_PATH(x) strcat("./audio", x)
-
+ 
 #define ALARMS (char const*[]){\
     "JusticeAlarm.mp3",\
     "MarioGalaxyAlarm.mp3",\

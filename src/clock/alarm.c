@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "../menu/menu.h"
+#include <stdio.h>
 
 
 void alarm_init(struct alarm_t* self)
@@ -20,11 +21,15 @@ void set_alarm(struct alarm_t *self, time_t time, int duration, char* ringetone)
   self->time = time;
   self->ringtone = ringetone;
   
+
+
   pid_t pid = fork();
   if (pid == 0) {
     /* child process */
     sleep(duration);
-    execl("/bin/mpg123", "/bin/mpg123", "-q" , AUDIO_PATH(self->ringtone), NULL); 
+    char path[9] = "./audio/";
+    strcat(path, self->ringtone);
+    execl("/bin/mpg123", "/bin/mpg123", "-q" , path, NULL); 
     exit(EXIT_SUCCESS);
   }
   self->pid = pid;
