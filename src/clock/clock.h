@@ -21,6 +21,7 @@ typedef struct  {
   alarm_t *alarms;
   int capacity;
   int length;
+  int ringtone;
 } alarm_clock_t;
 
 /**
