@@ -6,16 +6,30 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "../menu/menu.h"
+#include <stdio.h>
 
-void alarm_init(struct alarm_t *self, time_t time, int difference) {
+
+void alarm_init(struct alarm_t* self)
+{
   memset(self, 0, sizeof(struct alarm_t));
+  self->ringtone = malloc(MAX_INPUT_SIZE * sizeof(char));
+}
+
+void set_alarm(struct alarm_t *self, time_t time, int duration, char* ringetone) 
+{
   self->time = time;
-  pid_t pid = fork();
+  self->ringtone = ringetone;
   
+
+
+  pid_t pid = fork();
   if (pid == 0) {
     /* child process */
-    sleep(difference);
-    execl("/bin/mpg123", "/bin/mpg123", "-q" ,"./audio/alarm.mp3", NULL); 
+    sleep(duration);
+    char path[9] = "./audio/";
+    strcat(path, self->ringtone);
+    execl("/bin/mpg123", "/bin/mpg123", "-q" , path, NULL); 
     exit(EXIT_SUCCESS);
   }
   self->pid = pid;

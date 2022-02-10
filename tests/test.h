@@ -17,8 +17,8 @@
 #define SUCCESS(_x) printf(ANSI_COLOR_GREEN "%s %s \n", _x, ANSI_COLOR_RESET)
 #define SUITE(_x) printf(ANSI_COLOR_YELLOW _x ANSI_COLOR_RESET);
 
-#include "../clock/clock.h"
-#include "../menu/menu.h"
+#include "../src/clock/clock.h"
+#include "../src/menu/menu.h"
 
 
 #endif
