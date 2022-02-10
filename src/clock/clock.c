@@ -45,12 +45,14 @@ alarm_t create_alarm(alarm_clock_t* clock, time_t time, int difference)
 {
   alarm_t alarm;
   alarm.time = time;
+  char temp[25];
   pid_t pid = fork();  
   if (pid == 0) {
     /* child process */
+    memcpy(temp, ringtonepath[clock->ringtone], strlen(ringtonepath[clock->ringtone])+1);
     sleep(difference);
     printf("%s\n", "ReeeeING");
-    execl("/bin/mpg123", "/bin/mpg123", "-q" , *ringtonepath[clock->ringtone], NULL);
+    execl("/bin/mpg123", "/bin/mpg123", "-q" , temp, NULL);
     exit(EXIT_SUCCESS);
   }
   alarm.pid = pid;
