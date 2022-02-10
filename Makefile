@@ -8,6 +8,7 @@ SRC = $(wildcard src/*.c) $(wildcard src/**/*.c)
 OBJ = $(SRC:.c=.o)
 
 SRC_TEST = $(filter-out src/main.c, $(SRC)) 
+SRC_TEST += $(wildcard tests/*.c)
 OBJ_TEST = $(SRC_TEST:.c=.o)
 
 BIN = bin

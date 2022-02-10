@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#define TEST_ALARM "test"
+
 void test_time()
 {
     //testing input from user 2022-01-31 15:15:02
@@ -42,17 +44,16 @@ void test_time()
 
 void test_create_alarm(struct clock_t* clock)
 {
-    char input[] = "2022-01-31 15:15:02";
-    struct tm time2;
-    struct alarm_t alarm;
+    struct tm time;
+    struct alarm_t *alarm = malloc(sizeof(struct alarm_t));
 
-    time2.tm_hour -= 1;
-    
-    time_t timer2 = timegm(&time2);
+    time.tm_hour -= 1;
+    time_t timer = timegm(&time);
     int difference = 3600;          // 1 hour difference
 
-    alarm_init(&alarm, timer2, difference);
-    push(clock, alarm);
+    alarm_init(alarm);
+    set_alarm(alarm, timer, difference, TEST_ALARM); // no need for actual alarm.
+    push(clock, *alarm);
     if(clock->length == 1)
     {
         SUCCESS("TEST 2 PASSED");
@@ -61,6 +62,7 @@ void test_create_alarm(struct clock_t* clock)
     {
         FAIL("TEST 2 FAILED", 1, clock->length);
     }
+    free(alarm);
 
 }
 
@@ -106,7 +108,7 @@ int main(int argv, char** argc)
 
     printf("\n==================================================\n");
     SUITE("TEST CASE 3 \n");
-    printf("Test list_menu() function in clock.c \n");
+    printf("Test list_menu() function in menu.c \n");
     test_list_menu(clock);
     printf("\n==================================================\n");
 

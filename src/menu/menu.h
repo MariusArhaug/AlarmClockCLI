@@ -41,7 +41,7 @@ void schedule_menu(struct clock_t*, struct tm*);
 /**
  * @brief list out all alarms set by user 
  * 
- * @param clock alarm clock we want to read alarms from. 
+ * @param clock to read alarms from. 
  */
 void list_menu(struct clock_t*);
 
@@ -61,6 +61,15 @@ void cancel_menu(struct clock_t*);
  * 
  * @return tm_t* time object
  **/
-struct tm* get_current_time();
+struct tm* get_current_time(void);
+
+
+/**
+ * @brief Let user choose which ringtone for alarm.
+ * 
+ * 
+*/
+const char* choose_ringtone(void);
+
 
 #endif
