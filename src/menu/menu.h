@@ -39,6 +39,14 @@ void show_time(struct tm*);
 void schedule_menu(alarm_clock_t*, struct tm*);
 
 /**
+ * @brief Function that lets user choose wich ringtone it wants on each of the alarms.
+ * 
+ * @param takes in the alarm_clock struct pointer
+*/
+void choose_ringtone(alarm_clock_t* clock);
+
+
+/**
  * @brief list out all alarms set by user 
  * 
  * @param clock alarm clock we want to read alarms from. 
