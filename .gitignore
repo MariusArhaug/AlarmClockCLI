@@ -56,4 +56,6 @@ Mkfile.old
 dkms.conf
 
 # binary
+bin/*
+bin/test
 bin/main
