@@ -15,10 +15,6 @@
 
 #define FAIL(_x, _e, _g) printf(ANSI_COLOR_RED _x "EXPECTED:  %d, GOT: %d %s \n", _e, _g, ANSI_COLOR_RESET)
 #define SUCCESS(_x) printf(ANSI_COLOR_GREEN "%s %s \n", _x, ANSI_COLOR_RESET)
-#define SUITE(_x) printf(ANSI_COLOR_YELLOW _x ANSI_COLOR_RESET);
-
-#include "../src/clock/clock.h"
-#include "../src/menu/menu.h"
-
+#define SUITE(_x) printf(ANSI_COLOR_YELLOW _x  "%d" "\n" ANSI_COLOR_RESET, (__COUNTER__ + 1));
 
 #endif

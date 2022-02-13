@@ -1,4 +1,7 @@
 #include "test.h"
+#include "../src/clock/clock.h"
+#include "../src/menu/menu.h"
+
 #include <wchar.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,10 +37,10 @@ void test_time()
     //if difference not equal to 3600 exactly 1 hour than test fails
     if(difference == 3600)
     {
-        SUCCESS("TEST 1 PASSED");
+        SUCCESS("TEST PASSED");
     }
     else{
-        FAIL("TEST 1 FAILED", 1, difference);
+        FAIL("TEST FAILED", 1, difference);
        
     }
 }
@@ -53,23 +56,17 @@ void test_create_alarm(struct clock_t* clock)
 
     alarm_init(alarm);
     set_alarm(alarm, timer, difference, TEST_ALARM); // no need for actual alarm.
-    push(clock, *alarm);
+    push(clock, alarm);
     if(clock->length == 1)
     {
-        SUCCESS("TEST 2 PASSED");
+        SUCCESS("TEST PASSED");
     }
     else
     {
-        FAIL("TEST 2 FAILED", 1, clock->length);
+        FAIL("TEST FAILED", 1, clock->length);
     }
     free(alarm);
 
-}
-
-void test_list_menu(struct clock_t *clock)
-{
-    list_menu(clock);
-    SUCCESS("TEST 3 PASSED");
 }
 
 void test_remove_alarm(struct clock_t* clock)
@@ -78,11 +75,11 @@ void test_remove_alarm(struct clock_t* clock)
     remove_alarm(clock, index);
     if(clock->length == 0)
     {
-        SUCCESS("TEST 4 PASSED");
+        SUCCESS("TEST PASSED");
     }
     else
     {
-        FAIL("TEST 4 FAILED", 0, clock->length);
+        FAIL("TEST FAILED", 0, clock->length);
     }
 }
 
@@ -93,27 +90,20 @@ int main(int argv, char** argc)
 {
     struct clock_t* clock = malloc(sizeof(struct clock_t));
     clock_init(clock);
-    printf("\n==================================================\n");
-    SUITE("TEST CASE 1 \n");
+    printf("\n==================================================\n\n");
+    SUITE("TEST CASE ");
     printf("Test function check time in menu.c \n");
     test_time();
     printf("\n==================================================\n");
     
-
-    printf("\n==================================================\n");
-    SUITE("TEST CASE 2 \n");
+    printf("\n==================================================\n\n");
+    SUITE("TEST CASE ");
     printf("Test create_alarm() function in clock.c \n");
     test_create_alarm(clock);
     printf("\n==================================================\n");
 
-    printf("\n==================================================\n");
-    SUITE("TEST CASE 3 \n");
-    printf("Test list_menu() function in menu.c \n");
-    test_list_menu(clock);
-    printf("\n==================================================\n");
-
-    printf("\n==================================================\n");
-    SUITE("TEST CASE 4 \n");
+    printf("\n==================================================\n\n");
+    SUITE("TEST CASE ");
     printf("Test remove_alarm() function in clock.c \n");
     test_remove_alarm(clock);
     printf("\n==================================================\n");

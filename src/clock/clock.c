@@ -14,36 +14,40 @@ void clock_init(struct clock_t *self)
   memset(self, 0, sizeof(struct clock_t));
   self->capacity = INIT_SIZE;
   self->length = 0;
-  self->alarms = malloc(self->capacity * sizeof(struct alarm_t));
+  self->alarms = malloc(self->capacity * sizeof(struct alarm_t*));
 }
 
-void push(struct clock_t* self, struct alarm_t alarm)
+void clock_destroy(struct clock_t* self) 
+{
+  for (int i = 0; i < self->length; i++) 
+    alarm_destroy(self->alarms[i]);
+
+  free(self->alarms);
+  self->alarms = NULL;
+  self->length = self->capacity = 0;
+  free(self);
+  self = NULL;
+}
+
+void push(struct clock_t* self, struct alarm_t* alarm)
 {
   // Need to reallocate memory if array has reached max capcaity. 
   if (self->length == self->capacity)
   {
     self->capacity *= 2;
-    self->alarms = realloc(self->alarms, self->capacity * sizeof(struct alarm_t));
+    self->alarms = realloc(self->alarms, self->capacity * sizeof(struct alarm_t*));
   }
 
   self->alarms[self->length++] = alarm;
 }
 
-void destroy(struct clock_t* self) 
+struct alarm_t* remove_alarm(struct clock_t* self, int index) 
 {
-  free(self->alarms);
-  self->alarms = NULL;
-  self->length = self->capacity = 0;
-  free(self);
-}
-
-struct alarm_t remove_alarm(struct clock_t* self, int index) 
-{
-  struct alarm_t alarm = self->alarms[index]; // get alarm we want to remove
+  struct alarm_t* alarm = self->alarms[index]; // get alarm we want to remove
 
 
   // create temp array with same size as before
-  struct alarm_t * updated_array = malloc(self->capacity * sizeof(struct alarm_t));
+  struct alarm_t** updated_array = malloc(self->capacity * sizeof(struct alarm_t*));
 
   // move the old array from start (clock->alamrs pointer starts at begining of array)
   // until it reaches the index.
@@ -63,7 +67,7 @@ struct alarm_t remove_alarm(struct clock_t* self, int index)
   free(self->alarms);           // free old array.
   self->alarms = updated_array; // assign new array.
   self->length -= 1;
-  kill(alarm.pid, SIGKILL);     // kill alarm process of the child.
+  kill(alarm->pid, SIGKILL);     // kill alarm process of the child.
   return alarm;
 }
 
@@ -71,7 +75,7 @@ int find_index(struct clock_t *self, pid_t pid)
 {
   for (int i = 0; i < self->length; i++) 
   {
-    if (self->alarms[i].pid == pid)
+    if (self->alarms[i]->pid == pid)
       return i;
   }
   return NOT_FOUND;
