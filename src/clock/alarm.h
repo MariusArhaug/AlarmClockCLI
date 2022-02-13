@@ -28,6 +28,11 @@ struct alarm_t {
  */
 void alarm_init(struct alarm_t*); 
 
+/**
+ * @brief free alarm pointer 
+ * 
+ */
+void alarm_destroy(struct alarm_t*);
 
 void set_alarm(struct alarm_t*, time_t, int, const char*);
 

@@ -17,6 +17,18 @@ void clock_init(struct clock_t *self)
   self->alarms = malloc(self->capacity * sizeof(struct alarm_t*));
 }
 
+void clock_destroy(struct clock_t* self) 
+{
+  for (int i = 0; i < self->length; i++) 
+    alarm_destroy(self->alarms[i]);
+
+  free(self->alarms);
+  self->alarms = NULL;
+  self->length = self->capacity = 0;
+  free(self);
+  self = NULL;
+}
+
 void push(struct clock_t* self, struct alarm_t* alarm)
 {
   // Need to reallocate memory if array has reached max capcaity. 
@@ -27,14 +39,6 @@ void push(struct clock_t* self, struct alarm_t* alarm)
   }
 
   self->alarms[self->length++] = alarm;
-}
-
-void destroy(struct clock_t* self) 
-{
-  free(self->alarms);
-  self->alarms = NULL;
-  self->length = self->capacity = 0;
-  free(self);
 }
 
 struct alarm_t* remove_alarm(struct clock_t* self, int index) 

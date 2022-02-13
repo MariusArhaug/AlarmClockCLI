@@ -22,20 +22,21 @@ struct clock_t {
 void clock_init(struct clock_t*);
 
 /**
+ * @brief free clock struct from memory 
+ * Frees first its alarms, then sets is length/capacity to 0 
+ * finally frees the pointer.
+ * @param clock clock to be freed from memory.
+ */
+void clock_destroy(struct clock_t *);
+
+
+/**
  * @brief Push alarm to clock  
  * 
  * @param clock clock to add alarm to 
  * @param alarm alarm to be added.
  */
 void push(struct clock_t *, struct alarm_t*);
-
-/**
- * @brief free clock struct from memory 
- * Frees first its alarms, then sets is length/capacity to 0 
- * finally frees the pointer.
- * @param clock clock to be freed from memory.
- */
-void destroy(struct clock_t *);
 
 /**
  * @brief Create a alarm to be added to clock
