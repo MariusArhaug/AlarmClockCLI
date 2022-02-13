@@ -19,7 +19,7 @@
 struct alarm_t {
   time_t time;
   pid_t pid;
-  char* ringtone;
+  const char* ringtone;
 };
 
 /**
@@ -29,6 +29,6 @@ struct alarm_t {
 void alarm_init(struct alarm_t*); 
 
 
-void set_alarm(struct alarm_t*, time_t, int, char*);
+void set_alarm(struct alarm_t*, time_t, int, const char*);
 
 #endif

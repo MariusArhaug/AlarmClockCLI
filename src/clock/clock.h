@@ -1,8 +1,6 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-
-
 #define INIT_SIZE 10
 #define FAKE_SIGNAL 0
 #define NOT_FOUND -1
