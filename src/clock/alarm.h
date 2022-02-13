@@ -19,7 +19,7 @@
 struct alarm_t {
   time_t time;
   pid_t pid;
-  char* ringtone;
+  const char* ringtone;
 };
 
 /**
@@ -28,6 +28,11 @@ struct alarm_t {
  */
 void alarm_init(struct alarm_t*); 
 
+/**
+ * @brief free alarm pointer 
+ * 
+ */
+void alarm_destroy(struct alarm_t*);
 
 /**
  *  
@@ -38,6 +43,6 @@ void alarm_init(struct alarm_t*);
  * @param char pointer to an array of set ringtones
  * 
 */
-void set_alarm(struct alarm_t*, time_t, int, char*);
+void set_alarm(struct alarm_t*, time_t, int, const char*);
 
 #endif

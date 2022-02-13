@@ -16,13 +16,19 @@ void alarm_init(struct alarm_t* self)
   self->ringtone = malloc(MAX_INPUT_SIZE * sizeof(char));
 }
 
-void set_alarm(struct alarm_t *self, time_t time, int duration, char* ringetone) 
+void alarm_destroy(struct alarm_t *self)
+{
+  self->pid = -1;
+  free((char*) self->ringtone); // this might not be the total correct way to free
+  free(self);
+  self = NULL;
+}
+
+void set_alarm(struct alarm_t *self, time_t time, int duration, const char* ringetone) 
 {
   self->time = time;
   self->ringtone = ringetone;
   
-
-
   pid_t pid = fork();
   if (pid == 0) {
     /* child process */
