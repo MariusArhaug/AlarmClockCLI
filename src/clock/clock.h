@@ -10,7 +10,7 @@
 #include "alarm.h"
 
 struct clock_t {
-  struct alarm_t *alarms; //can be upgraded to be array of pointers 
+  struct alarm_t **alarms; //can be upgraded to be array of pointers 
   int capacity;
   int length;
 };
@@ -27,7 +27,7 @@ void clock_init(struct clock_t*);
  * @param clock clock to add alarm to 
  * @param alarm alarm to be added.
  */
-void push(struct clock_t *, struct alarm_t);
+void push(struct clock_t *, struct alarm_t*);
 
 /**
  * @brief free clock struct from memory 
@@ -54,7 +54,7 @@ void destroy(struct clock_t *);
  * @param index index of the given alarm.
  * @return alarm_t 
  */
-struct alarm_t remove_alarm(struct clock_t*, int);
+struct alarm_t* remove_alarm(struct clock_t*, int);
 
 /**
  * @brief find index of alarm given its pid. 

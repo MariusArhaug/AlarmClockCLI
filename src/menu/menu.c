@@ -87,7 +87,7 @@ static void schedule_menu(struct clock_t* clock, struct tm* current_time)
   
   alarm_init(alarm);
   set_alarm(alarm, time, difference, choose_ringtone());
-  push(clock, *alarm);
+  push(clock, alarm);
   printf("Scheduling alarm in %d seconds \n", difference);
 }
 
@@ -108,7 +108,7 @@ static void list_menu(struct clock_t *clock) {
     {
       wchar_t buff[MAX_INPUT_SIZE];
 
-      wcsftime(buff, sizeof buff, L"%F %T", localtime(&(clock->alarms[i].time)));
+      wcsftime(buff, sizeof buff, L"%F %T", localtime(&(clock->alarms[i]->time)));
 
       printf("Alarm %d at %ls\n", i+1, buff);
 
@@ -143,8 +143,8 @@ static void cancel_menu(struct clock_t* clock) {
         printf("Not valid number, try again \n");
         continue;
       }
-      struct alarm_t alarm = remove_alarm(clock, index-1);
-      printf("Alarm %d with pid: %d canceled\n", index, alarm.pid);
+      struct alarm_t *alarm = remove_alarm(clock, index-1);
+      printf("Alarm %d with pid: %d canceled\n", index, alarm->pid);
       break;
     }
   }
