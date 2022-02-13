@@ -58,6 +58,7 @@ void test_create_alarm(struct clock_t* clock)
     alarm_init(alarm);
     set_alarm(alarm, timer, difference, TEST_ALARM); // no need for actual alarm.
     push(clock, alarm);
+    
     if(clock->length == 1)
     {
         SUCCESS("TEST PASSED");
@@ -66,20 +67,17 @@ void test_create_alarm(struct clock_t* clock)
     {
         FAIL("TEST FAILED", 1, clock->length);
     }
-    free(alarm);
-
 }
 
-void test_list_menu(struct clock_t *clock)
+void test_list(struct clock_t *clock)
 {   
-    
-    if(clock->alarms[0].time == 1643638502) //2022-01-31 15:15:02
+    if(clock->alarms[0]->time == 1643638502) //2022-01-31 15:15:02
     {
-        SUCCESS("TEST 3 PASSED");
+        SUCCESS("TEST PASSED");
     }
     else
     {
-        FAIL("TEST 3 FAILED", 1, clock->alarms[0].time);
+        FAIL("TEST FAILED", 1643638502, (int) clock->alarms[0]->time);
     }
 }
 
@@ -101,6 +99,7 @@ int main(int argv, char** argc)
 {
     struct clock_t* clock = malloc(sizeof(struct clock_t));
     clock_init(clock);
+
     printf("\n==================================================\n\n");
     SUITE("TEST CASE ");
     printf("Test function check time in menu.c \n");
@@ -111,6 +110,12 @@ int main(int argv, char** argc)
     SUITE("TEST CASE ");
     printf("Test create_alarm() function in clock.c \n");
     test_create_alarm(clock);
+    printf("\n==================================================\n");
+
+    printf("\n==================================================\n\n");
+    SUITE("TEST CASE ");
+    printf("Test list in clock.c \n");
+    test_list(clock);
     printf("\n==================================================\n");
 
     printf("\n==================================================\n\n");

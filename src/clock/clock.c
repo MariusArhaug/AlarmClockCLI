@@ -54,14 +54,14 @@ struct alarm_t* remove_alarm(struct clock_t* self, int index)
   memmove(
     updated_array,
     self->alarms,
-    (index+1)*sizeof(struct alarm_t)
+    (index+1)*sizeof(struct alarm_t*)
   );
 
   // oppsite here, move last part of array into updated array.
   memmove(
     updated_array+index,
     self->alarms+(index+1),
-    (self->capacity - index)*sizeof(struct alarm_t)
+    (self->capacity - index)*sizeof(struct alarm_t*)
   );
 
   free(self->alarms);           // free old array.

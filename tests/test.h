@@ -13,7 +13,7 @@
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define FAIL(_x, _e, _g) printf(ANSI_COLOR_RED _x "EXPECTED:  %d, GOT: %d %s \n", _e, _g, ANSI_COLOR_RESET)
+#define FAIL(_x, _e, _g) printf(ANSI_COLOR_RED _x " EXPECTED: %d, GOT: %d %s \n", _e, _g, ANSI_COLOR_RESET)
 #define SUCCESS(_x) printf(ANSI_COLOR_GREEN "%s %s \n", _x, ANSI_COLOR_RESET)
 #define SUITE(_x) printf(ANSI_COLOR_YELLOW _x  "%d" "\n" ANSI_COLOR_RESET, (__COUNTER__ + 1));
 
