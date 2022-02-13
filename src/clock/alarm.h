@@ -29,6 +29,15 @@ struct alarm_t {
 void alarm_init(struct alarm_t*); 
 
 
+/**
+ *  
+ * @brief function to set alarm
+ * 
+ * @param time to set the alarm
+ * @param duration of ringtone
+ * @param char pointer to an array of set ringtones
+ * 
+*/
 void set_alarm(struct alarm_t*, time_t, int, char*);
 
 #endif

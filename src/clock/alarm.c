@@ -27,7 +27,7 @@ void set_alarm(struct alarm_t *self, time_t time, int duration, char* ringetone)
   if (pid == 0) {
     /* child process */
     sleep(duration);
-    char path[9] = "./audio/";
+    char path[] = "./audio/";
     strcat(path, self->ringtone);
     execl("/bin/mpg123", "/bin/mpg123", "-q" , path, NULL); 
     exit(EXIT_SUCCESS);
