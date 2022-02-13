@@ -45,8 +45,10 @@ void test_time()
 void test_create_alarm(struct clock_t* clock)
 {
     struct tm time;
+    char input[] = "2022-01-31 15:15:02";
     struct alarm_t *alarm = malloc(sizeof(struct alarm_t));
 
+    strptime(input, "%F %T", &time);
     time.tm_hour -= 1;
     time_t timer = timegm(&time);
     int difference = 3600;          // 1 hour difference
@@ -67,9 +69,17 @@ void test_create_alarm(struct clock_t* clock)
 }
 
 void test_list_menu(struct clock_t *clock)
-{
+{   
     list_menu(clock);
-    SUCCESS("TEST 3 PASSED");
+    
+    if(clock->alarms[0].time == 1643638502) //2022-01-31 15:15:02
+    {
+        SUCCESS("TEST 3 PASSED");
+    }
+    else
+    {
+        FAIL("TEST 3 FAILED", 1, clock->alarms[0].time);
+    }
 }
 
 void test_remove_alarm(struct clock_t* clock)
