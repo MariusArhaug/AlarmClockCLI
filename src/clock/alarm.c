@@ -18,8 +18,12 @@ void alarm_init(struct alarm_t* self)
 
 void alarm_destroy(struct alarm_t *self)
 {
+  kill(self->pid, SIGKILL);
+  
+  int signal;
+  waitpid(self->pid, &signal, 0);
+
   self->pid = -1;
-  free((char*) self->ringtone); // this might not be the total correct way to free
   free(self);
   self = NULL;
 }
