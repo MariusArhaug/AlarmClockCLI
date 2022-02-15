@@ -32,7 +32,7 @@ Although this program is small there is still quite a bit of functionalty that n
 
 ### How to run
 
-Run `make test` in the root directory and the tests should be compiled and run.
+Run `make test` in the root directory and the tests should be compiled and ran.
 
 ### Test case #1
 
